@@ -4,7 +4,7 @@ import edu.uprm.cse.datastructures.cardealer.util.TwoThreeTree;
 
 public class CarTable {
 	
-  private static TwoThreeTree<Long ,Car> ttt = new TwoThreeTree<Long,Car>(new KeyComparator());
+  private static TwoThreeTree<Long ,Car> ttt = new TwoThreeTree<Long,Car>(new KeyComparator(),new CarComparator());
 
   private CarTable(){}
   
@@ -15,7 +15,7 @@ public class CarTable {
   
   //creates a new instance of the list
   public static void resetCars() {
-	  ttt = new TwoThreeTree <Long,Car>(new KeyComparator());
+	  ttt = new TwoThreeTree <Long,Car>(new KeyComparator(), new CarComparator());
   }
   
 }                       

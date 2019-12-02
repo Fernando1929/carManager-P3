@@ -1,5 +1,6 @@
 package edu.uprm.cse.datastructures.cardealer.model;
 
+
 import java.util.Comparator;
 
 public class KeyComparator implements Comparator<Long>{
