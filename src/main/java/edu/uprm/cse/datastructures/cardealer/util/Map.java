@@ -1,21 +1,25 @@
 package edu.uprm.cse.datastructures.cardealer.util;
 
+import java.util.List;
+
 public interface Map<K, V> {
 
-	public int size();
-	
-	public boolean isEmpty();
-	
-	public V put(K key, V value);
-	
-	public V get(K key);
-	
-	public V remove(K key);
-	
-	public boolean containsKey(K key);
-	
-	public SortedList<K> getKeys();
-	
-	public SortedList<V> getValues();
-	
+    int size();
+
+    boolean isEmpty();
+
+    V get(K key);
+
+    V put(K key, V value);
+
+    V remove(K key);
+
+    boolean contains(K key);
+
+    List<K> getKeys();
+
+    List<V> getValues();
+
+
+
 }

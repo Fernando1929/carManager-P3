@@ -1,6 +1,8 @@
 package edu.uprm.cse.datastructures.cardealer.util;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class TwoThreeTree<K, V> extends BTree<K, V> {
 
@@ -116,17 +118,21 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 	}
 
 	@Override
-	public boolean containsKey(K key) {
+	public boolean contains(K key) {
 		MapEntry target = this.getMapEntry(this.root, key);
 		return target != null &&  target.deleted == false ? true : false;
 	}
 
 	@Override
-	public SortedList<K> getKeys() {
+	public List<K> getKeys() {
 		SortedList<K> result = new CircularSortedDoublyLinkedList<K>(this.keyComparator);
 		this.getKeysAux(this.root,result);
+		List<K> result2 = new ArrayList<>();
+		for(int i =0;i<result.size();++i) {
+			result2.add(result.get(i));
+		}
 
-		return result;
+		return result2;
 	}
 
 	private void getKeysAux(BTree<K, V>.TreeNode N, SortedList<K> result) {
@@ -149,13 +155,17 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 		}
 		return;
 	}
-
+	
 	@Override
-	public SortedList<V>getValues() {
+	public List<V> getValues() {
 		SortedList<V> result = new CircularSortedDoublyLinkedList<V>(this.valueComparator);
 		this.getValuesAux(this.root,result);
+		List<V> result2 = new ArrayList<>();
+		for(int i =0;i<result.size();++i) {
+			result2.add(result.get(i));
+		}
 
-		return result;
+		return result2;
 	}
 
 	private void getValuesAux(BTree<K, V>.TreeNode N, SortedList<V> result) {

@@ -1,5 +1,7 @@
 package edu.uprm.cse.datastructures.cardealer;
 
+import java.util.List;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,7 +15,6 @@ import javax.ws.rs.core.Response;
 
 import edu.uprm.cse.datastructures.cardealer.model.Car;
 import edu.uprm.cse.datastructures.cardealer.model.CarTable;
-import edu.uprm.cse.datastructures.cardealer.util.SortedList;
 import edu.uprm.cse.datastructures.cardealer.util.TwoThreeTree;
 
 @Path("/cars")
@@ -26,7 +27,7 @@ public class CarManager {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Car[] getAllCars() {
-		SortedList<Car> sObjects = ttt.getValues();
+		List<Car> sObjects = ttt.getValues();
 		Car [] result = new Car[sObjects.size()];
 		for(int i = 0; i < sObjects.size();++i) {
 			result[i] = sObjects.get(i);
@@ -54,7 +55,7 @@ public class CarManager {
 	@Path("/add")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addCar(Car car) {
-		if(!(ttt.containsKey(car.getCarId()))){
+		if(!(ttt.contains(car.getCarId()))){
 			ttt.put(car.getCarId(), car);
 			return Response.status(Response.Status.CREATED).build();
 		}
@@ -69,7 +70,7 @@ public class CarManager {
 	@Path("/{id}/update")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateCar(Car car) {
-		if(ttt.containsKey(car.getCarId())) {
+		if(ttt.contains(car.getCarId())) {
 			ttt.put(car.getCarId(), car);
 			return Response.status(Response.Status.OK).build();
 		}
