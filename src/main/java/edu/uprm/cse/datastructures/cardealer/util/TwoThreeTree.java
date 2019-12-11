@@ -12,21 +12,31 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 		this.valueComparator = valueComp;
 	}
 
+	/*Returns the number of elements in the HashTable.
+	 */
 	@Override
 	public int size() {
 		return this.currentSize;
 	}
 
+	/*Returns the state of the HashTable empty or not.
+	 */
 	@Override
 	public boolean isEmpty() {
 		return this.currentSize == 0;
 	}
-
+	
+	/*Adds a new MapEntry to the node
+	 */
 	private void addtoNode(TreeNode N, BTree<K, V>.MapEntry newEntry) {
 		N.entries.add(newEntry);
 		this.currentSize++;
 	}
-
+	
+	/*Adds the MapEntry with the specified key and values and if it exist one 
+	 *with the same key change it's value and return the old value if not 
+	 *returns null.
+	 */
 	@Override
 	public V put(K key, V value) {
 		if(key == null) {
@@ -47,6 +57,7 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 			if(target.deleted == true) {
 				target.deleted = false;
 				this.currentSize++;
+				return null;
 			}
 			return result;
 		}
@@ -55,6 +66,9 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 		return null;
 	}
 
+	/*Auxiliary method for the method put searches the node to add the MapEntry if
+	 * if that node has three maps calls split.
+	 */
 	private void putAux(BTree<K, V>.TreeNode N, BTree<K, V>.MapEntry newEntry, K key) {
 		if(N == null) {
 			return ;
@@ -83,14 +97,18 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 
 		return;
 	}
-
+	
+	/*Verifies that the node is a leaf (right,center and left are null).
+	 */
 	@Override
 	boolean isLeaf(TreeNode treeNode) {
 		return  treeNode.right == null && treeNode.center == null && treeNode.left == null ;
 	}
+	
+	/*The split method rearranges the three to keep it balanced and in order.
+	 */
 	@Override
-	void split(TreeNode N) { //split gigantesco 
-		//hacer los nodos
+	void split(TreeNode N) { //split 
 		TreeNode newleft = new TreeNode(N.entries.first(),null,this.keyComparator);
 		TreeNode newcenter = new TreeNode(N.entries.last(),null,this.keyComparator);
 		N.entries.remove(N.entries.last());
@@ -168,11 +186,13 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 				}
 			}
 			if(N.parent.entries.size()==3) {
-				split(N.parent);
+				this.split(N.parent);
 			}
 		}
 	}
-
+	
+	/*Return the value of a MapEntry with the specified key.
+	 */
 	@Override
 	public V get(K key) {
 		if(key == null) {
@@ -185,6 +205,8 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 		return null;
 	}
 
+	/*Removes MapEntry with the specified key.
+	 */
 	@Override
 	public V remove(K key) {
 		if(key == null) {
@@ -199,13 +221,17 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 		}
 		return null;
 	}
-
+	
+	/*Verifies if the TwoThreeTree has a MapEntry with the specified key 
+	 */
 	@Override
 	public boolean contains(K key) {
 		MapEntry target = this.getMapEntry(this.root, key);
 		return target != null && target.deleted==false  ? true : false;
 	}
 
+	/*Returns a list with all the keys in order.
+	 */
 	@Override
 	public List<K> getKeys() {
 		SortedList<K> result = new CircularSortedDoublyLinkedList<K>(this.keyComparator);
@@ -218,6 +244,8 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 		return result2;
 	}
 
+	/*Auxiliary method for the getKeys method searches the tree recursively.
+	 */
 	private void getKeysAux(BTree<K, V>.TreeNode N, SortedList<K> result) {
 		if(N == null) {
 			return;
@@ -239,6 +267,8 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 		return;
 	}
 
+	/*Returns a list with all the values in order.
+	 */
 	@Override
 	public List<V> getValues() {
 		SortedList<V> result = new CircularSortedDoublyLinkedList<V>(this.valueComparator);
@@ -250,7 +280,9 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 
 		return result2;
 	}
-
+	
+	/*Auxiliary method for the getValues method searches the tree recursively.
+	 */
 	private void getValuesAux(BTree<K, V>.TreeNode N, SortedList<V> result) {
 		if(N == null) {
 			return;
@@ -272,6 +304,8 @@ public class TwoThreeTree<K, V> extends BTree<K, V> {
 		return;
 	}
 
+	/*Returns the MapEntry of the specified key.
+	 */
 	private MapEntry getMapEntry(TreeNode N, K key) {
 		if(N == null) {
 			return null;
