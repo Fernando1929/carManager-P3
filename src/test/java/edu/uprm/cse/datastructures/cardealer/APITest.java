@@ -782,6 +782,23 @@ public class APITest {
         CarTable.resetCars();
     }
 
+    @Test
+    public void test4(){
+        CarTable.resetCars();
+        for (int i =0;i<300;i++){
+            addCar(new Car(i,"Toyota" , "RAV4", "LE",15000.50*i));
+        }
+
+        CarTable.getInstance().print();
+            Car base = new Car(0,"Toyota" , "RAV4", "LE",15000.50);
+        for (int i = 0 ; i < 300 ; i++){
+            base = new Car(i,"Toyota" , "RAV4", "LE",15000.50*i);
+            Car getCR = getCar(base);
+            assertEquals(base, getCR);
+        }
+
+        CarTable.resetCars();
+    }
 
 
 }
